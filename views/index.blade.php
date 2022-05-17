@@ -39,22 +39,26 @@ $result = json_decode($result, true);
 
       <?php foreach ($result['data']['results'] as $key => $value) : ?>
         <?php foreach ($value as $key => $value) : ?>
+           
           <?php if ($key == 'name') {
             $heroName = $value;
           } ?>
+            
           <?php if ($key == 'thumbnail') : ?>
             <div class="card" style='margin-top:10px ; margin-left:10px;'>
               <img src="<?= $value['path'] . '.' . $value['extension'] ?>" style="width: 200px; height: 200px; " class="card-img-top rounded">
               <div class="card-body">
                 <p class="card-text"> <?= $heroName ?> </p>
-              </div>
+                <?php
+            $linkListesi = array("https://github.com/berkfurkantoraman","https://github.com/kaankizildag");
+            $randomLink = array_rand($linkListesi,1);
+            ?>
+            <a href=<?= $linkListesi[$randomLink] ?> class="btn btn-primary stretched-link"><?= $heroName ?>'i seç</a>
+                </div>
             </div>
           <?php endif ?>
-
         <?php endforeach ?>
       <?php endforeach ?>
-
-
     </div>
   </div>
 </body>
