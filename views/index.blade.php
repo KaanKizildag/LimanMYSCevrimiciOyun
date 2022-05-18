@@ -36,24 +36,18 @@ $result = json_decode($result, true);
 <body>
   <div class="container">
     <div class="row">
-
       <?php foreach ($result['data']['results'] as $key => $value) : ?>
         <?php foreach ($value as $key => $value) : ?>
            
           <?php if ($key == 'name') {
             $heroName = $value;
           } ?>
-            
           <?php if ($key == 'thumbnail') : ?>
-            <div class="card" style='margin-top:10px ; margin-left:10px;'>
+            <div class="card" style='margin-top:10px ; margin-left:10px;' id="<?= $heroName ?>" >
               <img src="<?= $value['path'] . '.' . $value['extension'] ?>" style="width: 200px; height: 200px; " class="card-img-top rounded">
               <div class="card-body">
                 <p class="card-text"> <?= $heroName ?> </p>
-                <?php
-            $linkListesi = array("https://github.com/berkfurkantoraman","https://github.com/kaankizildag");
-            $randomLink = array_rand($linkListesi,1);
-            ?>
-            <a href=<?= $linkListesi[$randomLink] ?> class="btn btn-primary stretched-link"><?= $heroName ?>'i seç</a>
+                <button class='btn btn-success' onclick='karakteriEkle("<?= $heroName ?>")'> Ekle </button>    
                 </div>
             </div>
           <?php endif ?>
@@ -61,6 +55,56 @@ $result = json_decode($result, true);
       <?php endforeach ?>
     </div>
   </div>
-</body>
 
+  <div class="row">
+   <button class= 'btn btn-primary' onclick='benHazirim()'>Hazır!</button>         
+  </div>
+
+</body>
+<script>
+  var secilenKarakterler = [];
+  var KARAKTER_SINIRI = 3;
+
+  function karakteriEkle(karakterAdi) {
+    if(secilenKarakterler.length < KARAKTER_SINIRI) {
+      kahraman = {
+        karakterAdi : karakterAdi,
+        gucu : Math.round(Math.random() * 10) + 10
+      }
+      secilenKarakterler.push(kahraman);
+      diviGuncelle(karakterAdi);
+    } else{
+      alert('Karakter sınırına ulaşıldı')
+    }
+  }
+
+  function diviGuncelle(id) {
+    document.getElementById(id).style.visibility='hidden'
+  }
+
+  function benHazirim() {
+    alert("Seçtiğin Karakterler: \n".concat(this.secilenKarakterler.map(karakterMaple)));
+    enGucluKarakteriBul();
+  }
+
+  function karakterMaple(karakter) {
+    return "Karakter Adı: ".concat(karakter.karakterAdi, ", Gücü: ", karakter.gucu, "\n"); //KarakterAdi: ".concat(karakter.karakterAdi, ", Gücü: ", karakter.gucu; 
+  }
+  function enGucluKarakteriBul(){
+
+    var high = Number.NEGATIVE_INFINITY;
+        
+        var tmp;
+        for (var i=this.secilenKarakterler.length-1; i>=0; i--) {
+            tmp = this.secilenKarakterler[i].gucu;
+            karakterAdi = this.secilenKarakterler[i].karakterAdi;
+            if (tmp > high) {
+              high = tmp;
+              enGucluKarakter = karakterAdi;
+            }
+        }
+        alert(karakterAdi.concat(' Kazandı'));
+  }
+
+</script>
 </html>
