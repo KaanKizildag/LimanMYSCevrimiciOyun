@@ -56,6 +56,29 @@ $result = json_decode($result, true);
     </div>
   </div>
 
+<hr>
+
+<div class="container">
+    <div class="row">
+      <?php foreach ($result['data']['results'] as $key => $value) : ?>
+        <?php foreach ($value as $key => $value) : ?>
+           
+          <?php if ($key == 'name') {
+            $heroName = $value;
+          } ?>
+          <?php if ($key == 'thumbnail') : ?>
+            <div class="card" style='margin-top:10px ; margin-left:10px;' id="<?= $heroName ?>" >
+              <img src="<?= $value['path'] . '.' . $value['extension'] ?>" style="width: 200px; height: 200px; " class="card-img-top rounded">
+              <div class="card-body">
+                <p class="card-text"> <?= $heroName ?> </p>
+                <button class='btn btn-success' onclick='karakteriEkle("<?= $heroName ?>")'> Ekle </button>    
+                </div>
+            </div>
+          <?php endif ?>
+        <?php endforeach ?>
+      <?php endforeach ?>
+    </div>
+
   <div class="row">
    <button class= 'btn btn-primary' onclick='benHazirim()'>Hazır!</button>         
   </div>
@@ -74,7 +97,7 @@ $result = json_decode($result, true);
       secilenKarakterler.push(kahraman);
       diviGuncelle(karakterAdi);
     } else{
-      alert('Karakter sınırına ulaşıldı')
+      showSwal('{{__("Karakter sınırına ulaşıldı")}}', 'error', 5000);
     }
   }
 
